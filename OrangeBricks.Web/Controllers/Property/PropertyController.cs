@@ -86,8 +86,8 @@ namespace OrangeBricks.Web.Controllers.Property
         [ValidateAntiForgeryToken]
         public ActionResult MakeOffer(MakeOfferCommand command)
         {
+            command.BuyerUserId = User.Identity.GetUserId();
             _commandSender.Send(command);
-
             return RedirectToAction("Index");
         }
     }
