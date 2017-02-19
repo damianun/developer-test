@@ -6,28 +6,25 @@ using OrangeBricks.Web.Controllers.Property.Builders;
 using OrangeBricks.Web.Controllers.Property.Commands;
 using OrangeBricks.Web.Controllers.Property.ViewModels;
 using OrangeBricks.Web.Cqrs.Interfaces;
-using OrangeBricks.Web.Models;
+using OrangeBricks.Web.VMBuilder.Interfaces;
 
 namespace OrangeBricks.Web.Controllers.Property
 {
     public class PropertyController : Controller
     {
-        private readonly IOrangeBricksContext _context;
         private readonly ICommandSender _commandSender;
+        private readonly IViewModelFactory _viewModelFactory;
 
-        public PropertyController( IOrangeBricksContext context, ICommandSender commandSender)
+        public PropertyController( ICommandSender commandSender, IViewModelFactory viewModelFactory )
         {
-            _context = context;
             _commandSender = commandSender;
+            _viewModelFactory = viewModelFactory;
         }
 
         [Authorize]
         public ActionResult Index(PropertiesQuery query)
         {
-            var builder = new PropertiesViewModelBuilder(_context);
-            var viewModel = builder.Build(query);
-
-            return View(viewModel);
+            return View(_viewModelFactory.BuildViewModel<PropertiesViewModel, PropertiesQuery>(query));
         }
 
         [OrangeBricksAuthorize(Roles = "Seller")]
@@ -39,7 +36,6 @@ namespace OrangeBricks.Web.Controllers.Property
                     .Select(x => new SelectListItem {Value = x, Text = x})
                     .AsEnumerable()
             };
-
 
             return View(viewModel);
         }
@@ -58,10 +54,7 @@ namespace OrangeBricks.Web.Controllers.Property
         [OrangeBricksAuthorize(Roles = "Seller")]
         public ActionResult MyProperties()
         {
-            var builder = new MyPropertiesViewModelBuilder(_context);
-            var viewModel = builder.Build(User.Identity.GetUserId());
-
-            return View(viewModel);
+            return View(_viewModelFactory.BuildViewModel<MyPropertiesViewModel, string>(User.Identity.GetUserId()));
         }
 
         [HttpPost]
@@ -76,9 +69,7 @@ namespace OrangeBricks.Web.Controllers.Property
         [OrangeBricksAuthorize(Roles = "Buyer")]
         public ActionResult MakeOffer(int id)
         {
-            var builder = new MakeOfferViewModelBuilder(_context);
-            var viewModel = builder.Build(id);
-            return View(viewModel);
+            return View(_viewModelFactory.BuildViewModel<MakeOfferViewModel,int>(id));
         }
 
         [HttpPost]

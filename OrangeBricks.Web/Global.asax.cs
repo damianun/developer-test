@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using OrangeBricks.Web.Cqrs;
 using OrangeBricks.Web.Cqrs.Interfaces;
 using OrangeBricks.Web.Models;
+using OrangeBricks.Web.VMBuilder;
+using OrangeBricks.Web.VMBuilder.Interfaces;
 using SimpleInjector;
 using SimpleInjector.Extensions;
 using SimpleInjector.Integration.Web;
@@ -43,6 +45,11 @@ namespace OrangeBricks.Web
             container.Register<ICommandSender, CommandSender>(weblifestyle);
             container.Register<ICommandHandlerResolver, SimpleInjectorCommandHandlerResolver>(weblifestyle);
             container.RegisterManyForOpenGeneric(typeof(ICommandHandler<>), weblifestyle, Assembly.GetExecutingAssembly());
+
+            //ViewModelBuilders
+            container.Register<IViewModelFactory, ViewModelFactory>(weblifestyle);
+            container.Register<IViewModelBuilderResolver, SimpleInjectorViewModelBuilderResolver>(weblifestyle);
+            container.RegisterManyForOpenGeneric(typeof(IViewModelBuilder<,>), weblifestyle, Assembly.GetExecutingAssembly());
 
             DependencyResolver.SetResolver(
                 new SimpleInjectorDependencyResolver(container));

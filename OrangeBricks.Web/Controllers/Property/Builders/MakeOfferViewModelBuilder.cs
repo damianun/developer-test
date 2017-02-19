@@ -1,9 +1,10 @@
 using OrangeBricks.Web.Controllers.Property.ViewModels;
 using OrangeBricks.Web.Models;
+using OrangeBricks.Web.VMBuilder.Interfaces;
 
 namespace OrangeBricks.Web.Controllers.Property.Builders
 {
-    public class MakeOfferViewModelBuilder
+    public class MakeOfferViewModelBuilder : IViewModelBuilder<MakeOfferViewModel, int>
     {
         private readonly IOrangeBricksContext _context;
 

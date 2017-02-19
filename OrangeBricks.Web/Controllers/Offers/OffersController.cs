@@ -1,30 +1,27 @@
 ﻿using System.Web.Mvc;
 using OrangeBricks.Web.Attributes;
-using OrangeBricks.Web.Controllers.Offers.Builders;
 using OrangeBricks.Web.Controllers.Offers.Commands;
+using OrangeBricks.Web.Controllers.Offers.ViewModels;
 using OrangeBricks.Web.Cqrs.Interfaces;
-using OrangeBricks.Web.Models;
+using OrangeBricks.Web.VMBuilder.Interfaces;
 
 namespace OrangeBricks.Web.Controllers.Offers
 {
     [OrangeBricksAuthorize(Roles = "Seller")]
     public class OffersController : Controller
     {
-        private readonly IOrangeBricksContext _context;
         private readonly ICommandSender _commandSender;
+        private readonly IViewModelFactory _viewModelFactory;
 
-        public OffersController( IOrangeBricksContext context, ICommandSender sender )
+        public OffersController( ICommandSender sender, IViewModelFactory viewModelFactory )
         {
-            _context = context;
             _commandSender = sender;
+            _viewModelFactory = viewModelFactory;
         }
 
         public ActionResult OnProperty(int id)
         {
-            var builder = new OffersOnPropertyViewModelBuilder(_context);
-            var viewModel = builder.Build(id);
-
-            return View(viewModel);
+            return View(_viewModelFactory.BuildViewModel<OffersOnPropertyViewModel, int>(id));
         }
 
         [HttpPost]        

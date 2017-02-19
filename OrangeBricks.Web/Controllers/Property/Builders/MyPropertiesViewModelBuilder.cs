@@ -1,10 +1,11 @@
 using System.Linq;
 using OrangeBricks.Web.Controllers.Property.ViewModels;
 using OrangeBricks.Web.Models;
+using OrangeBricks.Web.VMBuilder.Interfaces;
 
 namespace OrangeBricks.Web.Controllers.Property.Builders
 {
-    public class MyPropertiesViewModelBuilder
+    public class MyPropertiesViewModelBuilder : IViewModelBuilder<MyPropertiesViewModel, string>
     {
         private readonly IOrangeBricksContext _context;
 
