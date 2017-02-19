@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using NSubstitute;
@@ -27,11 +28,11 @@ namespace OrangeBricks.Web.Tests.Controllers.Offers.Builders
 
             var offers = new List<Offer>
             {
-                new Offer {Amount = 9000, BuyerUserId = "1", Status = OfferStatus.Pending},
-                new Offer {Amount = 9001, BuyerUserId = "2", Status = OfferStatus.Pending},
-                new Offer {Amount = 9003, BuyerUserId = "3", Status = OfferStatus.Pending},
-                new Offer {Amount = 9005, BuyerUserId = "1", Status = OfferStatus.Rejected},
-                new Offer {Amount = 9004, BuyerUserId = "1", Status = OfferStatus.Pending}
+                new Offer {Amount = 9000, BuyerUserId = "1", Status = OfferStatus.Pending, CreatedAt = DateTime.Now, Property = new Models.Property { Id = 1 }},
+                new Offer {Amount = 9001, BuyerUserId = "2", Status = OfferStatus.Pending, CreatedAt = DateTime.Now, Property = new Models.Property { Id = 2 }},
+                new Offer {Amount = 9003, BuyerUserId = "3", Status = OfferStatus.Pending, CreatedAt = DateTime.Now, Property = new Models.Property { Id = 3 }},
+                new Offer {Amount = 9005, BuyerUserId = "1", Status = OfferStatus.Rejected, CreatedAt = DateTime.Now, Property = new Models.Property { Id = 4 }},
+                new Offer {Amount = 9004, BuyerUserId = "1", Status = OfferStatus.Pending, CreatedAt = DateTime.Now, Property = new Models.Property { Id = 5 }}
             };
 
             var mockSet = Substitute.For<IDbSet<Offer>>()
@@ -51,9 +52,9 @@ namespace OrangeBricks.Web.Tests.Controllers.Offers.Builders
 
             var offers = new List<Offer>
             {
-                new Offer {Amount = 9000, BuyerUserId = "4", Status = OfferStatus.Pending},
-                new Offer {Amount = 9001, BuyerUserId = "2", Status = OfferStatus.Pending},
-                new Offer {Amount = 9003, BuyerUserId = "3", Status = OfferStatus.Pending}
+                new Offer {Amount = 9000, BuyerUserId = "4", Status = OfferStatus.Pending, CreatedAt = DateTime.Now, Property = new Models.Property { Id = 1 }},
+                new Offer {Amount = 9001, BuyerUserId = "2", Status = OfferStatus.Pending, CreatedAt = DateTime.Now, Property = new Models.Property { Id = 1 }},
+                new Offer {Amount = 9003, BuyerUserId = "3", Status = OfferStatus.Pending, CreatedAt = DateTime.Now, Property = new Models.Property { Id = 1 }}
             };
 
             var mockSet = Substitute.For<IDbSet<Offer>>()

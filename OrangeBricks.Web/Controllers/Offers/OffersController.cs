@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using OrangeBricks.Web.Attributes;
 using OrangeBricks.Web.Controllers.Offers.Commands;
 using OrangeBricks.Web.Controllers.Offers.ViewModels;
@@ -7,7 +8,6 @@ using OrangeBricks.Web.VMBuilder.Interfaces;
 
 namespace OrangeBricks.Web.Controllers.Offers
 {
-    [OrangeBricksAuthorize(Roles = "Seller")]
     public class OffersController : Controller
     {
         private readonly ICommandSender _commandSender;
@@ -42,6 +42,12 @@ namespace OrangeBricks.Web.Controllers.Offers
             _commandSender.Send(command);
 
             return RedirectToAction("OnProperty", new { id = command.PropertyId });
+        }
+
+        [OrangeBricksAuthorize(Roles = "Buyer")]
+        public ActionResult OfBuyer()
+        {
+            return View(_viewModelFactory.BuildViewModel<OffersOfBuyerViewModel, string>(User.Identity.GetUserId()));
         }
     }
 }
