@@ -1,8 +1,9 @@
+using OrangeBricks.Web.Cqrs.Interfaces;
 using OrangeBricks.Web.Models;
 
 namespace OrangeBricks.Web.Controllers.Property.Commands
 {
-    public class CreatePropertyCommandHandler
+    public class CreatePropertyCommandHandler : ICommandHandler<CreatePropertyCommand>
     {
         private readonly IOrangeBricksContext _context;
 
@@ -15,13 +16,13 @@ namespace OrangeBricks.Web.Controllers.Property.Commands
         {
             var property = new Models.Property
             {
-               PropertyType = command.PropertyType,
-               StreetName = command.StreetName,
-               Description = command.Description,
-               NumberOfBedrooms = command.NumberOfBedrooms
+                PropertyType = command.PropertyType,
+                StreetName = command.StreetName,
+                Description = command.Description,
+                NumberOfBedrooms = command.NumberOfBedrooms,
+                SellerUserId = command.SellerUserId
             };
 
-            property.SellerUserId = command.SellerUserId;
 
             _context.Properties.Add(property);
 

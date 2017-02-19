@@ -1,9 +1,10 @@
 using System;
+using OrangeBricks.Web.Cqrs.Interfaces;
 using OrangeBricks.Web.Models;
 
 namespace OrangeBricks.Web.Controllers.Offers.Commands
 {
-    public class AcceptOfferCommandHandler
+    public class AcceptOfferCommandHandler : ICommandHandler<AcceptOfferCommand>
     {
         private readonly IOrangeBricksContext _context;
 

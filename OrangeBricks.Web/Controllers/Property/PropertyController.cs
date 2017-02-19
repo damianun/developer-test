@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using OrangeBricks.Web.Attributes;
 using OrangeBricks.Web.Controllers.Property.Builders;
 using OrangeBricks.Web.Controllers.Property.Commands;
 using OrangeBricks.Web.Controllers.Property.ViewModels;
+using OrangeBricks.Web.Cqrs.Interfaces;
 using OrangeBricks.Web.Models;
 
 namespace OrangeBricks.Web.Controllers.Property
@@ -13,10 +13,12 @@ namespace OrangeBricks.Web.Controllers.Property
     public class PropertyController : Controller
     {
         private readonly IOrangeBricksContext _context;
+        private readonly ICommandSender _commandSender;
 
-        public PropertyController(IOrangeBricksContext context)
+        public PropertyController( IOrangeBricksContext context, ICommandSender commandSender)
         {
             _context = context;
+            _commandSender = commandSender;
         }
 
         [Authorize]
@@ -31,11 +33,13 @@ namespace OrangeBricks.Web.Controllers.Property
         [OrangeBricksAuthorize(Roles = "Seller")]
         public ActionResult Create()
         {
-            var viewModel = new CreatePropertyViewModel();
+            var viewModel = new CreatePropertyViewModel
+            {
+                PossiblePropertyTypes = new[] {"House", "Flat", "Bungalow"}
+                    .Select(x => new SelectListItem {Value = x, Text = x})
+                    .AsEnumerable()
+            };
 
-            viewModel.PossiblePropertyTypes = new string[] { "House", "Flat", "Bungalow" }
-                .Select(x => new SelectListItem { Value = x, Text = x })
-                .AsEnumerable();
 
             return View(viewModel);
         }
@@ -44,11 +48,9 @@ namespace OrangeBricks.Web.Controllers.Property
         [HttpPost]
         public ActionResult Create(CreatePropertyCommand command)
         {
-            var handler = new CreatePropertyCommandHandler(_context);
-
             command.SellerUserId = User.Identity.GetUserId();
 
-            handler.Handle(command);
+            _commandSender.Send(command);
 
             return RedirectToAction("MyProperties");
         }
@@ -66,10 +68,8 @@ namespace OrangeBricks.Web.Controllers.Property
         [OrangeBricksAuthorize(Roles = "Seller")]
         public ActionResult ListForSale(ListPropertyCommand command)
         {
-            var handler = new ListPropertyCommandHandler(_context);
-
-            handler.Handle(command);
-
+            _commandSender.Send(command);
+                        
             return RedirectToAction("MyProperties");
         }
 
@@ -85,9 +85,7 @@ namespace OrangeBricks.Web.Controllers.Property
         [OrangeBricksAuthorize(Roles = "Buyer")]
         public ActionResult MakeOffer(MakeOfferCommand command)
         {
-            var handler = new MakeOfferCommandHandler(_context);
-
-            handler.Handle(command);
+            _commandSender.Send(command);
 
             return RedirectToAction("Index");
         }

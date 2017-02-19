@@ -200,6 +200,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\IdentityManager.cs" />
+    <Compile Include="Cqrs\SimpleInjectorCommandHandlerResolver.cs" />
+    <Compile Include="Cqrs\CommandSender.cs" />
+    <Compile Include="Cqrs\Interfaces\ICommandHandler.cs" />
+    <Compile Include="Cqrs\Interfaces\ICommandHandlerResolver.cs" />
+    <Compile Include="Cqrs\Interfaces\ICommandSender.cs" />
     <Compile Include="Migrations\201505052030221_InitialCreate.cs" />
     <Compile Include="Migrations\201505052030221_InitialCreate.Designer.cs">
       <DependentUpon>201505052030221_InitialCreate.cs</DependentUpon>

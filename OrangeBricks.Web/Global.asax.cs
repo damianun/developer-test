@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin.Security;
+using OrangeBricks.Web.Cqrs;
+using OrangeBricks.Web.Cqrs.Interfaces;
 using OrangeBricks.Web.Models;
 using SimpleInjector;
-using SimpleInjector.Diagnostics;
+using SimpleInjector.Extensions;
+using SimpleInjector.Integration.Web;
 using SimpleInjector.Integration.Web.Mvc;
 
 namespace OrangeBricks.Web
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
@@ -27,17 +25,24 @@ namespace OrangeBricks.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             var container = new Container();
+            //Allows "Per Web Request" lifetime scope - available from SimpleInjector.Integration.Web.dll
+            var weblifestyle = new WebRequestLifestyle();
 
             // DB Context
-            container.Register<IOrangeBricksContext, ApplicationDbContext>();
+            container.Register<IOrangeBricksContext, ApplicationDbContext>(weblifestyle);
             
             // Auth
             container.Register<IUserStore<ApplicationUser>>(() => new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            container.Register<IAuthenticationManager>(() => HttpContext.Current.GetOwinContext().Authentication);
+            container.Register(() => HttpContext.Current.GetOwinContext().Authentication);
             
             // MVC
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
             container.RegisterMvcIntegratedFilterProvider();
+
+            //Commands
+            container.Register<ICommandSender, CommandSender>(weblifestyle);
+            container.Register<ICommandHandlerResolver, SimpleInjectorCommandHandlerResolver>(weblifestyle);
+            container.RegisterManyForOpenGeneric(typeof(ICommandHandler<>), weblifestyle, Assembly.GetExecutingAssembly());
 
             DependencyResolver.SetResolver(
                 new SimpleInjectorDependencyResolver(container));

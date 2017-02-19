@@ -2,6 +2,7 @@
 using OrangeBricks.Web.Attributes;
 using OrangeBricks.Web.Controllers.Offers.Builders;
 using OrangeBricks.Web.Controllers.Offers.Commands;
+using OrangeBricks.Web.Cqrs.Interfaces;
 using OrangeBricks.Web.Models;
 
 namespace OrangeBricks.Web.Controllers.Offers
@@ -10,10 +11,12 @@ namespace OrangeBricks.Web.Controllers.Offers
     public class OffersController : Controller
     {
         private readonly IOrangeBricksContext _context;
+        private readonly ICommandSender _commandSender;
 
-        public OffersController(IOrangeBricksContext context)
+        public OffersController( IOrangeBricksContext context, ICommandSender sender )
         {
             _context = context;
+            _commandSender = sender;
         }
 
         public ActionResult OnProperty(int id)
@@ -27,9 +30,7 @@ namespace OrangeBricks.Web.Controllers.Offers
         [HttpPost]        
         public ActionResult Accept(AcceptOfferCommand command)
         {
-            var handler = new AcceptOfferCommandHandler(_context);
-
-            handler.Handle(command);
+            _commandSender.Send(command);
 
             return RedirectToAction("OnProperty", new { id = command.PropertyId });
         }
@@ -37,9 +38,7 @@ namespace OrangeBricks.Web.Controllers.Offers
         [HttpPost]
         public ActionResult Reject(RejectOfferCommand command)
         {
-            var handler = new RejectOfferCommandHandler(_context);
-
-            handler.Handle(command);
+            _commandSender.Send(command);
 
             return RedirectToAction("OnProperty", new { id = command.PropertyId });
         }

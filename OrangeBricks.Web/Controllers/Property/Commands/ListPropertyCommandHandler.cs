@@ -1,8 +1,9 @@
+using OrangeBricks.Web.Cqrs.Interfaces;
 using OrangeBricks.Web.Models;
 
 namespace OrangeBricks.Web.Controllers.Property.Commands
 {
-    public class ListPropertyCommandHandler
+    public class ListPropertyCommandHandler : ICommandHandler<ListPropertyCommand>
     {
         private readonly IOrangeBricksContext _context;
 

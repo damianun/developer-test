@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using OrangeBricks.Web.Cqrs.Interfaces;
 using OrangeBricks.Web.Models;
 
 namespace OrangeBricks.Web.Controllers.Property.Commands
 {
-    public class MakeOfferCommandHandler
+    public class MakeOfferCommandHandler : ICommandHandler<MakeOfferCommand>
     {
         private readonly IOrangeBricksContext _context;
 

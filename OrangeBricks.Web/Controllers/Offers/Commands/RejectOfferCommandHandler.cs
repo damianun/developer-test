@@ -1,9 +1,10 @@
 using System;
+using OrangeBricks.Web.Cqrs.Interfaces;
 using OrangeBricks.Web.Models;
 
 namespace OrangeBricks.Web.Controllers.Offers.Commands
 {
-    public class RejectOfferCommandHandler
+    public class RejectOfferCommandHandler : ICommandHandler<RejectOfferCommand>
     {
         private readonly IOrangeBricksContext _context;
 
