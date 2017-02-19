@@ -17,11 +17,12 @@
     <p>@property.Description</p>
 
     <a href="@Url.Action("OnProperty", "Offers", new {id = property.Id})">View offers that have been made on this property...</a>
-        
+
     if (!property.IsListedForSale)
     {
         using (Html.BeginForm("ListForSale", "Property"))
         {
+            @Html.AntiForgeryToken()
             @Html.Hidden("PropertyId", property.Id)
             <input class="btn btn-primary" type="submit" value="List Property For Sale" />
         }

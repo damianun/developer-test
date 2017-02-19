@@ -24,7 +24,9 @@ namespace OrangeBricks.Web.Controllers.Offers
             return View(_viewModelFactory.BuildViewModel<OffersOnPropertyViewModel, int>(id));
         }
 
-        [HttpPost]        
+        [HttpPost]
+        [OrangeBricksAuthorize(Roles = "Seller")]
+        [ValidateAntiForgeryToken]
         public ActionResult Accept(AcceptOfferCommand command)
         {
             _commandSender.Send(command);
@@ -33,6 +35,8 @@ namespace OrangeBricks.Web.Controllers.Offers
         }
 
         [HttpPost]
+        [OrangeBricksAuthorize(Roles = "Seller")]
+        [ValidateAntiForgeryToken]
         public ActionResult Reject(RejectOfferCommand command)
         {
             _commandSender.Send(command);

@@ -40,15 +40,23 @@ namespace OrangeBricks.Web.Controllers.Property
             return View(viewModel);
         }
 
-        [OrangeBricksAuthorize(Roles = "Seller")]
         [HttpPost]
+        [OrangeBricksAuthorize(Roles = "Seller")]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(CreatePropertyCommand command)
         {
-            command.SellerUserId = User.Identity.GetUserId();
+            if (ModelState.IsValid)
+            {
+                command.SellerUserId = User.Identity.GetUserId();
 
-            _commandSender.Send(command);
+                _commandSender.Send(command);
 
-            return RedirectToAction("MyProperties");
+                return RedirectToAction("MyProperties");
+            }
+            else
+            {
+                return Create();
+            }
         }
 
         [OrangeBricksAuthorize(Roles = "Seller")]
@@ -59,6 +67,7 @@ namespace OrangeBricks.Web.Controllers.Property
 
         [HttpPost]
         [OrangeBricksAuthorize(Roles = "Seller")]
+        [ValidateAntiForgeryToken]
         public ActionResult ListForSale(ListPropertyCommand command)
         {
             _commandSender.Send(command);
@@ -74,6 +83,7 @@ namespace OrangeBricks.Web.Controllers.Property
 
         [HttpPost]
         [OrangeBricksAuthorize(Roles = "Buyer")]
+        [ValidateAntiForgeryToken]
         public ActionResult MakeOffer(MakeOfferCommand command)
         {
             _commandSender.Send(command);

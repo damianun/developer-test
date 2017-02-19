@@ -9,7 +9,7 @@
 {
     @Html.AntiForgeryToken()
     <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(m => m.PropertyType, "I want to sell my...", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -20,18 +20,21 @@
         @Html.LabelFor(m => m.StreetName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.StreetName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.StreetName, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.NumberOfBedrooms, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.NumberOfBedrooms, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.NumberOfBedrooms, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">

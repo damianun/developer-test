@@ -11,6 +11,7 @@
 
 @using (Html.BeginForm("MakeOffer", "Property", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
+    @Html.AntiForgeryToken()
     <div class="form-group">
         @Html.LabelFor(m => m.Offer, "Offer in GBP", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
