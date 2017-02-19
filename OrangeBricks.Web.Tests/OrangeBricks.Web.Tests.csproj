@@ -98,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Offers\Builders\OffersOfBuyerViewModelBuilderTest.cs" />
     <Compile Include="Controllers\Offers\Builders\OffersOnPropertyViewModelBuilderTest.cs" />
     <Compile Include="Controllers\Offers\Commands\AcceptOfferCommandHandlerTest.cs" />
     <Compile Include="Controllers\Offers\Commands\RejectOfferCommandHandlerTest.cs" />
