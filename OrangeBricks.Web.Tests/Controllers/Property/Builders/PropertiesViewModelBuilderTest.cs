@@ -5,21 +5,10 @@ using NSubstitute;
 using NUnit.Framework;
 using OrangeBricks.Web.Controllers.Property.Builders;
 using OrangeBricks.Web.Models;
+using OrangeBricks.Web.Tests.Utilities.DbSet;
 
 namespace OrangeBricks.Web.Tests.Controllers.Property.Builders
 {
-    public static class ExtentionMethods
-    {
-        public static IDbSet<T> Initialize<T>(this IDbSet<T> dbSet, IQueryable<T> data) where T : class
-        {
-            dbSet.Provider.Returns(data.Provider);
-            dbSet.Expression.Returns(data.Expression);
-            dbSet.ElementType.Returns(data.ElementType);
-            dbSet.GetEnumerator().Returns(data.GetEnumerator());
-            return dbSet;
-        }
-    }
-
     [TestFixture]
     public class PropertiesViewModelBuilderTest
     {
