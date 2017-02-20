@@ -12,6 +12,7 @@ namespace OrangeBricks.Web.Models
         [Required]
         public DateTime VisitAt { get; set; }
 
+        [Required]
         [Column("Property_Id")]
         public Property Property { get; set; }
 

@@ -243,6 +243,10 @@
     <Compile Include="Migrations\201702182023543_AddPropertyBuyerUserIdToOffer.Designer.cs">
       <DependentUpon>201702182023543_AddPropertyBuyerUserIdToOffer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702201110043_AddViewingTable.cs" />
+    <Compile Include="Migrations\201702201110043_AddViewingTable.Designer.cs">
+      <DependentUpon>201702201110043_AddViewingTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -349,6 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702182023543_AddPropertyBuyerUserIdToOffer.resx">
       <DependentUpon>201702182023543_AddPropertyBuyerUserIdToOffer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702201110043_AddViewingTable.resx">
+      <DependentUpon>201702201110043_AddViewingTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
