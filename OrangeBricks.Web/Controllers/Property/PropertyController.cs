@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using OrangeBricks.Web.Attributes;
@@ -100,11 +102,10 @@ namespace OrangeBricks.Web.Controllers.Property
         [HttpPost]
         [OrangeBricksAuthorize(Roles = "Buyer")]
         [ValidateAntiForgeryToken]
-        public ActionResult RequestViewing(RequestViewingCommand command)
+        public ActionResult RequestViewing([ModelBinder(typeof(RequestViewingCommandBinder))]RequestViewingCommand command)
         {
             if (ModelState.IsValid)
             {
-                command.VisitorUserId = User.Identity.GetUserId();
                 _commandSender.Send(command);
                 return RedirectToAction("Index");
             }
@@ -113,5 +114,37 @@ namespace OrangeBricks.Web.Controllers.Property
                 return RequestViewing(command.PropertyId);
             }
         }
+
+        #region CustomBinders
+
+        /// <summary>
+        /// This Binder class allows to map date time string in datetimepicker format 
+        /// into DateTime model value transparent to locale settings
+        /// </summary>
+        public class RequestViewingCommandBinder : IModelBinder
+        {
+            public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+            {
+                var request = controllerContext.HttpContext.Request;
+
+                var strPropertyId = request.Form.Get("PropertyId");
+                var strVisitDateTime = request.Form.Get("VisitDateTime");
+
+                DateTime visitAt;
+                if (!DateTime.TryParseExact(strVisitDateTime, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out visitAt))
+                {
+                    bindingContext.ModelState.AddModelError("VisitDateTime", "Visiting time value is incorrect");
+                }                                
+
+                return new RequestViewingCommand
+                {
+                    VisitDateTime = visitAt,
+                    PropertyId = int.Parse(strPropertyId),
+                    VisitorUserId = controllerContext.HttpContext.User.Identity.GetUserId()
+                };
+            }
+        }
+
+        #endregion
     }
 }
