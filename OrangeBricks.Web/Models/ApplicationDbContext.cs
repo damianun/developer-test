@@ -1,5 +1,4 @@
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace OrangeBricks.Web.Models
@@ -18,11 +17,13 @@ namespace OrangeBricks.Web.Models
 
         public IDbSet<Property> Properties { get; set; }
         public IDbSet<Offer> Offers { get; set; }
+        public IDbSet<Viewing> Viewings { get; set; }
 
         public new void SaveChanges()
         {
             base.SaveChanges();
         }
+
     }
 
     public interface IOrangeBricksContext

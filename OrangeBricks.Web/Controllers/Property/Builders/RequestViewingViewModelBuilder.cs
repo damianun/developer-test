@@ -1,4 +1,6 @@
-﻿using OrangeBricks.Web.Controllers.Property.ViewModels;
+﻿using System;
+using System.Linq;
+using OrangeBricks.Web.Controllers.Property.ViewModels;
 using OrangeBricks.Web.Models;
 using OrangeBricks.Web.VMBuilder.Interfaces;
 
@@ -15,7 +17,15 @@ namespace OrangeBricks.Web.Controllers.Property.Builders
 
         public RequestViewingViewModel Build(int propertyId)
         {
-            throw new System.NotImplementedException();
+            var property = _context.Properties.SingleOrDefault(p => p.Id == propertyId);
+
+            return new RequestViewingViewModel
+            {
+                PropertyId = property.Id,
+                PropertyType = property.PropertyType,
+                StreetName = property.StreetName,
+                VisitDateTime = DateTime.UtcNow.AddDays(1) 
+            };
         }
     }
 }

@@ -36,7 +36,6 @@ namespace OrangeBricks.Web.Tests.Controllers.Property.Builders
 
             var viewModel = builder.Build(1);
 
-            // Assert
             Assert.IsNotNull(viewModel,"Builder returned no default view model");
         }
     }

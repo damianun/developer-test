@@ -30,7 +30,8 @@ namespace OrangeBricks.Web.Tests.Controllers.Property.Commands
         {
             var command = new RequestViewingCommand
             {
-                VisitDate = DateTime.ParseExact("12/11/2017 12:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                PropertyId = 1,
+                VisitDateTime = DateTime.ParseExact("12/11/2017 12:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
                 VisitorUserId = "ID"
             };
 
@@ -48,7 +49,8 @@ namespace OrangeBricks.Web.Tests.Controllers.Property.Commands
         {
             var command = new RequestViewingCommand
             {
-                VisitDate = DateTime.ParseExact("12/11/2017 12:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                PropertyId = 1,
+                VisitDateTime = DateTime.ParseExact("12/11/2017 12:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
                 VisitorUserId = "ID"
             };
 
@@ -58,7 +60,7 @@ namespace OrangeBricks.Web.Tests.Controllers.Property.Commands
 
             _handler.Handle(command);
 
-            Assert.IsTrue(property.Viewings.FirstOrDefault(x => x.VisitAt == command.VisitDate) != null, "Viewing has different visitting date than requested");
+            Assert.IsTrue(property.Viewings.FirstOrDefault(x => x.VisitAt == command.VisitDateTime) != null, "Viewing has different visitting date than requested");
         }
 
         [Test]
@@ -66,7 +68,8 @@ namespace OrangeBricks.Web.Tests.Controllers.Property.Commands
         {
             var command = new RequestViewingCommand
             {
-                VisitDate = DateTime.ParseExact("12/11/2017 12:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                PropertyId = 1,
+                VisitDateTime = DateTime.ParseExact("12/11/2017 12:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
                 VisitorUserId = "ID"
             };
 
@@ -84,7 +87,8 @@ namespace OrangeBricks.Web.Tests.Controllers.Property.Commands
         {
             var command = new RequestViewingCommand
             {
-                VisitDate = DateTime.ParseExact("12/11/2017 12:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                PropertyId = 1,
+                VisitDateTime = DateTime.ParseExact("12/11/2017 12:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
                 VisitorUserId = "ID"
             };
 
@@ -102,7 +106,8 @@ namespace OrangeBricks.Web.Tests.Controllers.Property.Commands
         public void HandlerShouldCreateAnOfferWithBuyerReferenceSet()
         {
             var command = new RequestViewingCommand {
-                VisitDate = DateTime.ParseExact("12/11/2017 12:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                PropertyId = 1,
+                VisitDateTime = DateTime.ParseExact("12/11/2017 12:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
                 VisitorUserId = "ID"
             };
 
@@ -114,5 +119,6 @@ namespace OrangeBricks.Web.Tests.Controllers.Property.Commands
 
             Assert.IsTrue(property.Viewings.FirstOrDefault(x => !string.IsNullOrEmpty(x.VisitorUserId)) != null, "Buyer reference is missing on requested viewing");
         }
+
     }
 }
