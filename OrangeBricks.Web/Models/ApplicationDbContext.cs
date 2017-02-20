@@ -30,6 +30,7 @@ namespace OrangeBricks.Web.Models
     {
         IDbSet<Property> Properties { get; set; }
         IDbSet<Offer> Offers { get; set; }
+        IDbSet<Viewing> Viewings { get; set; }
 
         void SaveChanges();
     }

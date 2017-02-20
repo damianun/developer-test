@@ -202,6 +202,14 @@
     <Compile Include="Controllers\Property\ViewModels\PropertiesViewModel.cs" />
     <Compile Include="Controllers\Property\ViewModels\PropertyViewModel.cs" />
     <Compile Include="Controllers\Property\ViewModels\RequestViewingViewModel.cs" />
+    <Compile Include="Controllers\Viewings\ViewModels\ViewinsOnPropertyViewModel.cs" />
+    <Compile Include="Controllers\Viewings\ViewModels\ViewingsOfBuyerViewModel.cs" />
+    <Compile Include="Controllers\Viewings\Builders\ViewingsOfBuyerViewModelBuilder.cs" />
+    <Compile Include="Controllers\Viewings\Builders\ViewingsOnPropertyViewModelBuilder.cs" />
+    <Compile Include="Controllers\Viewings\Commands\AcceptViewingCommandHandler.cs" />
+    <Compile Include="Controllers\Viewings\Commands\RejectViewingCommandHandler.cs" />
+    <Compile Include="Controllers\Viewings\Commands\AcceptViewingCommand.cs" />
+    <Compile Include="Controllers\Viewings\Commands\RejectViewingCommand.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using NSubstitute;
 using NUnit.Framework;
-using OrangeBricks.Web.Controllers.Offers.Builders;
+using OrangeBricks.Web.Controllers.Viewings.Builders;
 using OrangeBricks.Web.Models;
 using OrangeBricks.Web.Tests.Utilities.DbSet;
 
-namespace OrangeBricks.Web.Tests.Controllers.Offers.Builders
+namespace OrangeBricks.Web.Tests.Controllers.Viewings.Builders
 {
     [TestFixture]
-    public class OffersOnPropertyViewModelBuilderTest
+    public class ViewingsOnPropertyViewModelBuilderTest
     {
         private IOrangeBricksContext _context;
 
@@ -21,12 +23,12 @@ namespace OrangeBricks.Web.Tests.Controllers.Offers.Builders
         }
 
         [Test]
-        public void BuildShouldReturnNoOffersOnProperty()
+        public void BuildShouldReturnNoViewingsOnProperty()
         {
 
-            var builder = new OffersOnPropertyViewModelBuilder(_context);
+            var builder = new ViewingsOnPropertyViewModelBuilder(_context);
 
-            var properties = new List<Models.Property> { 
+            var properties = new List<Models.Property> {
                 new Models.Property{ Id = 1, StreetName = "", Description = "Great location", IsListedForSale = true }
             };
 
@@ -37,22 +39,22 @@ namespace OrangeBricks.Web.Tests.Controllers.Offers.Builders
 
             var result = builder.Build(1);
 
-            Assert.IsEmpty(result.Offers, "There should be no offers on property");
-            
+            Assert.IsEmpty(result.Viewings, "There should be no viewings on property");
+
         }
 
         [Test]
-        public void BuildShouldReturnOffersOnProperty()
+        public void BuildShouldReturnViewingsOnProperty()
         {
 
-            var builder = new OffersOnPropertyViewModelBuilder(_context);
+            var builder = new ViewingsOnPropertyViewModelBuilder(_context);
 
             var properties = new List<Models.Property> {
                 new Models.Property{ Id = 1, StreetName = "", Description = "Great location", IsListedForSale = true,
-                    Offers = new List<Offer>
+                    Viewings = new List<Viewing>
                     {
-                        new Offer { Id = 1, Amount = 15000 },
-                        new Offer { Id = 2, Amount = 800 }
+                        new Viewing { Id = 1, VisitAt = DateTime.Now },
+                        new Viewing { Id = 2, VisitAt = DateTime.Now }
                     }
                 }
             };
@@ -64,20 +66,21 @@ namespace OrangeBricks.Web.Tests.Controllers.Offers.Builders
 
             var result = builder.Build(1);
 
-            Assert.AreEqual(2, result.Offers.Count(), "Unexpected number of offers on property returned");
+            Assert.AreEqual(2, result.Viewings.Count(), "Unexpected number of viewings on property returned");
         }
 
         [Test]
-        public void BuildShouldReturnOfferOnPropertyWithCorrectAmount()
+        public void BuildShouldReturnViewingOnPropertyWithCorrectVisitDate()
         {
 
-            var builder = new OffersOnPropertyViewModelBuilder(_context);
+            var builder = new ViewingsOnPropertyViewModelBuilder(_context);
+            var date = DateTime.ParseExact("12/11/2017 12:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
 
             var properties = new List<Models.Property> {
                 new Models.Property{ Id = 1, StreetName = "", Description = "Great location", IsListedForSale = true,
-                    Offers = new List<Offer>
+                    Viewings = new List<Viewing>
                     {
-                        new Offer { Id = 1, Amount = 15000 }
+                        new Viewing { Id = 1, VisitAt = date }
                     }
                 }
             };
@@ -89,20 +92,20 @@ namespace OrangeBricks.Web.Tests.Controllers.Offers.Builders
 
             var result = builder.Build(1);
 
-            Assert.IsTrue(result.Offers.Any(x => x.Amount == 15000), "An offer with required amount is missing");
+            Assert.IsTrue(result.Viewings.Any(x => x.VisitDateTime == date), "Viewing with required visit date is missing");
         }
 
         [Test]
-        public void BuildShouldReturnOfferOnPropertyWithPendingStatus()
+        public void BuildShouldReturnViewingOnPropertyWithPendingStatus()
         {
 
-            var builder = new OffersOnPropertyViewModelBuilder(_context);
+            var builder = new ViewingsOnPropertyViewModelBuilder(_context);
 
             var properties = new List<Models.Property> {
                 new Models.Property{ Id = 1, StreetName = "", Description = "Great location", IsListedForSale = true,
-                    Offers = new List<Offer>
+                    Viewings = new List<Viewing>
                     {
-                        new Offer { Id = 1, Amount = 15000, Status = OfferStatus.Pending }
+                        new Viewing { Id = 1, VisitAt = DateTime.Now, Status = ViewingStatus.Pending }
                     }
                 }
             };
@@ -114,20 +117,20 @@ namespace OrangeBricks.Web.Tests.Controllers.Offers.Builders
 
             var result = builder.Build(1);
 
-            Assert.IsTrue(result.Offers.Any(x => x.IsPending), "An offer with Pending status is missing");
+            Assert.IsTrue(result.Viewings.Any(x => x.IsPending), "Viewing with Pending status is missing");
         }
 
         [Test]
-        public void BuildShouldReturnOfferOnPropertyWithCorrectStreetName()
+        public void BuildShouldReturnViewingOnPropertyWithCorrectStreetName()
         {
 
-            var builder = new OffersOnPropertyViewModelBuilder(_context);
+            var builder = new ViewingsOnPropertyViewModelBuilder(_context);
 
             var properties = new List<Models.Property> {
                 new Models.Property{ Id = 1, StreetName = "Green Lane", Description = "Great location", IsListedForSale = true,
-                    Offers = new List<Offer>
+                    Viewings = new List<Viewing>
                     {
-                        new Offer { Id = 1, Amount = 15000, Status = OfferStatus.Pending }
+                        new Viewing() { Id = 1, VisitAt = DateTime.Now, Status = ViewingStatus.Pending }
                     }
                 }
             };
@@ -139,7 +142,7 @@ namespace OrangeBricks.Web.Tests.Controllers.Offers.Builders
 
             var result = builder.Build(1);
 
-            Assert.AreEqual(result.StreetName, "Green Lane", "An offer with required Street Name is missing");
+            Assert.AreEqual(result.StreetName, "Green Lane", "Viewing with required Street Name is missing");
         }
     }
 }

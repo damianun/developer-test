@@ -60,7 +60,7 @@ namespace OrangeBricks.Web.Tests.Controllers.Property.Commands
 
             _handler.Handle(command);
 
-            Assert.IsTrue(property.Viewings.FirstOrDefault(x => x.VisitAt == command.VisitDateTime) != null, "Viewing has different visitting date than requested");
+            Assert.IsTrue(property.Viewings.Any(x => x.VisitAt == command.VisitDateTime), "Viewing has different visitting date than requested");
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace OrangeBricks.Web.Tests.Controllers.Property.Commands
 
             _handler.Handle(command);
 
-            Assert.IsTrue(property.Viewings.FirstOrDefault(x => x.Status == ViewingStatus.Pending) != null, "Viewing with pending status is missing");
+            Assert.IsTrue(property.Viewings.Any(x => x.Status == ViewingStatus.Pending), "Viewing with pending status is missing");
         }
 
         [Test]
@@ -98,8 +98,8 @@ namespace OrangeBricks.Web.Tests.Controllers.Property.Commands
 
             _handler.Handle(command);
 
-            Assert.IsTrue(property.Viewings.FirstOrDefault(x => x.UpdatedAt != default(DateTime)) != null, "Viewing with UpdateAt date is missing");
-            Assert.IsTrue(property.Viewings.FirstOrDefault(x => x.CreatedAt != default(DateTime)) != null, "Viewing with CreateAt date is missing");
+            Assert.IsTrue(property.Viewings.Any(x => x.UpdatedAt != default(DateTime)), "Viewing with UpdateAt date is missing");
+            Assert.IsTrue(property.Viewings.Any(x => x.CreatedAt != default(DateTime)), "Viewing with CreateAt date is missing");
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace OrangeBricks.Web.Tests.Controllers.Property.Commands
 
             _handler.Handle(command);
 
-            Assert.IsTrue(property.Viewings.FirstOrDefault(x => !string.IsNullOrEmpty(x.VisitorUserId)) != null, "Buyer reference is missing on requested viewing");
+            Assert.IsTrue(property.Viewings.Any(x => !string.IsNullOrEmpty(x.VisitorUserId)), "Buyer reference is missing on requested viewing");
         }
 
     }
