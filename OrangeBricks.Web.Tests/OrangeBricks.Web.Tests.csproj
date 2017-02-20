@@ -103,9 +103,11 @@
     <Compile Include="Controllers\Offers\Commands\AcceptOfferCommandHandlerTest.cs" />
     <Compile Include="Controllers\Offers\Commands\RejectOfferCommandHandlerTest.cs" />
     <Compile Include="Controllers\Property\Builders\PropertiesViewModelBuilderTest.cs" />
+    <Compile Include="Controllers\Property\Builders\RequestViewingViewModelBuilderTest.cs" />
     <Compile Include="Controllers\Property\Commands\CreatePropertyCommandHandlerTest.cs" />
     <Compile Include="Controllers\Property\Commands\ListPropertyCommandHandlerTest.cs" />
     <Compile Include="Controllers\Property\Commands\MakeOfferCommandHandlerTest.cs" />
+    <Compile Include="Controllers\Property\Commands\RequestViewingCommandHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\DbSet\Helpers.cs" />
   </ItemGroup>

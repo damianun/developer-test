@@ -186,18 +186,22 @@
     <Compile Include="Controllers\Property\Builders\MyPropertiesViewModelBuilder.cs" />
     <Compile Include="Controllers\Property\Builders\PropertiesQuery.cs" />
     <Compile Include="Controllers\Property\Builders\PropertiesViewModelBuilder.cs" />
+    <Compile Include="Controllers\Property\Builders\RequestViewingViewModelBuilder.cs" />
     <Compile Include="Controllers\Property\Commands\CreatePropertyCommand.cs" />
     <Compile Include="Controllers\Property\Commands\CreatePropertyCommandHandler.cs" />
     <Compile Include="Controllers\Property\Commands\ListPropertyCommand.cs" />
     <Compile Include="Controllers\Property\Commands\ListPropertyCommandHandler.cs" />
     <Compile Include="Controllers\Property\Commands\MakeOfferCommand.cs" />
     <Compile Include="Controllers\Property\Commands\MakeOfferCommandHandler.cs" />
+    <Compile Include="Controllers\Property\Commands\RequestViewingCommand.cs" />
+    <Compile Include="Controllers\Property\Commands\RequestViewingCommandHandler.cs" />
     <Compile Include="Controllers\Property\PropertyController.cs" />
     <Compile Include="Controllers\Property\ViewModels\CreatePropertyViewModel.cs" />
     <Compile Include="Controllers\Property\ViewModels\MakeOfferViewModel.cs" />
     <Compile Include="Controllers\Property\ViewModels\MyPropertiesViewModel.cs" />
     <Compile Include="Controllers\Property\ViewModels\PropertiesViewModel.cs" />
     <Compile Include="Controllers\Property\ViewModels\PropertyViewModel.cs" />
+    <Compile Include="Controllers\Property\ViewModels\RequestViewingViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -247,6 +251,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Offer.cs" />
     <Compile Include="Models\Property.cs" />
+    <Compile Include="Models\Viewing.cs" />
+    <Compile Include="Models\ViewingStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="VMBuilder\Interfaces\IViewModelBuilder.cs" />
