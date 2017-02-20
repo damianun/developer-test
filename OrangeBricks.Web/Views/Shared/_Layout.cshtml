@@ -29,6 +29,7 @@
                         if (User.IsInRole("Buyer"))
                         {
                             <li>@Html.ActionLink("My Offers", "OfBuyer", "Offers")</li>
+                            <li>@Html.ActionLink("My Viewings", "OfBuyer", "Viewings")</li>
                         }
                         if (User.IsInRole("Seller"))
                         {

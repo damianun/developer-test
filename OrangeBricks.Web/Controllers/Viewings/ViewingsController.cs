@@ -1,19 +1,19 @@
 ﻿using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using OrangeBricks.Web.Attributes;
-using OrangeBricks.Web.Controllers.Offers.Commands;
-using OrangeBricks.Web.Controllers.Offers.ViewModels;
+using OrangeBricks.Web.Controllers.Viewings.Commands;
+using OrangeBricks.Web.Controllers.Viewings.ViewModels;
 using OrangeBricks.Web.Cqrs.Interfaces;
 using OrangeBricks.Web.VMBuilder.Interfaces;
 
-namespace OrangeBricks.Web.Controllers.Offers
+namespace OrangeBricks.Web.Controllers.Viewings
 {
-    public class OffersController : Controller
+    public class ViewingsController : Controller
     {
         private readonly ICommandSender _commandSender;
         private readonly IViewModelFactory _viewModelFactory;
 
-        public OffersController( ICommandSender sender, IViewModelFactory viewModelFactory )
+        public ViewingsController(ICommandSender sender, IViewModelFactory viewModelFactory)
         {
             _commandSender = sender;
             _viewModelFactory = viewModelFactory;
@@ -22,13 +22,13 @@ namespace OrangeBricks.Web.Controllers.Offers
         [OrangeBricksAuthorize(Roles = "Seller")]
         public ActionResult OnProperty(int id)
         {
-            return View(_viewModelFactory.BuildViewModel<OffersOnPropertyViewModel, int>(id));
+            return View(_viewModelFactory.BuildViewModel<ViewingsOnPropertyViewModel, int>(id));
         }
 
         [HttpPost]
         [OrangeBricksAuthorize(Roles = "Seller")]
         [ValidateAntiForgeryToken]
-        public ActionResult Accept(AcceptOfferCommand command)
+        public ActionResult Accept(AcceptViewingCommand command)
         {
             _commandSender.Send(command);
 
@@ -38,7 +38,7 @@ namespace OrangeBricks.Web.Controllers.Offers
         [HttpPost]
         [OrangeBricksAuthorize(Roles = "Seller")]
         [ValidateAntiForgeryToken]
-        public ActionResult Reject(RejectOfferCommand command)
+        public ActionResult Reject(RejectViewingCommand command)
         {
             _commandSender.Send(command);
 
@@ -48,7 +48,7 @@ namespace OrangeBricks.Web.Controllers.Offers
         [OrangeBricksAuthorize(Roles = "Buyer")]
         public ActionResult OfBuyer()
         {
-            return View(_viewModelFactory.BuildViewModel<OffersOfBuyerViewModel, string>(User.Identity.GetUserId()));
+            return View(_viewModelFactory.BuildViewModel<ViewingsOfBuyerViewModel, string>(User.Identity.GetUserId()));
         }
     }
 }

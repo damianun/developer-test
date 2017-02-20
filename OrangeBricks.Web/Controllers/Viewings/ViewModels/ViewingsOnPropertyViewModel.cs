@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OrangeBricks.Web.Controllers.Viewings.ViewModels
 {
-    public class ViewinsOnPropertyViewModel
+    public class ViewingsOnPropertyViewModel
     {
         public string PropertyType { get; set; }
         public int NumberOfBedrooms { get; set; }

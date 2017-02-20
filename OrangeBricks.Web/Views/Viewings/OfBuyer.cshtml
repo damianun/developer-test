@@ -1,0 +1,33 @@
+﻿@using OrangeBricks.Web.Controllers.Viewings.ViewModels
+@model ViewingsOfBuyerViewModel
+
+@{
+    ViewBag.Title = "My requested viewings on properties";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>Here you can see the requested viewings that you have made on properties.</p>
+
+@if (Model.HasViewings)
+{
+    <p>You have requested @Model.Viewings.Count() viewings...</p>
+
+    foreach (var viewing in Model.Viewings)
+    {
+        <hr />
+        <div class="@(viewing.Accepted ? "alert alert-success" : "")">
+            <p><strong>Property type:</strong> @viewing.PropertyType</p>
+            <p><strong>Street name:</strong> @viewing.StreetName</p>
+            <p><strong>Requested visiting time: </strong> @viewing.VisitDateTime.ToLongTimeString() on @viewing.VisitDateTime.ToShortDateString()</p>
+            <p><strong>Status: </strong> @viewing.Status</p>
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-info" role="alert">
+        You have requested no viewings yet!
+    </div>
+}

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using NSubstitute;
 using NUnit.Framework;
 using OrangeBricks.Web.Controllers.Viewings.Commands;
 using OrangeBricks.Web.Models;
+using OrangeBricks.Web.Tests.Utilities.DbSet;
 
 namespace OrangeBricks.Web.Tests.Controllers.Viewings.Commands
 {
@@ -28,13 +31,24 @@ namespace OrangeBricks.Web.Tests.Controllers.Viewings.Commands
         public void HandlerShouldAcceptViewing()
         {
             var command = new AcceptViewingCommand { ViewingId = 1 };
+            var viewings = new List<Viewing>
+            {
+                new Viewing
+                {
+                    Id = 1,
+                    Status = ViewingStatus.Pending,
+                    Property = new Models.Property { Id = 1 }
+                }
+            };
 
-            var viewing = new Viewing() { Status = ViewingStatus.Pending };
+            var mockSet = Substitute.For<IDbSet<Viewing>>()
+                .Initialize(viewings.AsQueryable());
 
-            _viewings.Find(1).Returns(viewing);
+            _context.Viewings.Returns(mockSet);
 
             _handler.Handle(command);
 
+            var viewing = viewings.Find(v => v.Id == 1);
             Assert.IsTrue(viewing.Status == ViewingStatus.Accepted, "Viewing has not been accepted");
         }
 
@@ -43,12 +57,25 @@ namespace OrangeBricks.Web.Tests.Controllers.Viewings.Commands
         {
             var command = new AcceptViewingCommand { ViewingId = 1 };
 
-            var viewing = new Viewing { Status = ViewingStatus.Pending, UpdatedAt = DateTime.MaxValue };
+            var viewings = new List<Viewing>
+            {
+                new Viewing
+                {
+                    Id = 1,
+                    Status = ViewingStatus.Pending,
+                    UpdatedAt = DateTime.MaxValue,
+                    Property = new Models.Property { Id = 1 }
+                }
+            };
 
-            _viewings.Find(1).Returns(viewing);
+            var mockSet = Substitute.For<IDbSet<Viewing>>()
+                .Initialize(viewings.AsQueryable());
+
+            _context.Viewings.Returns(mockSet);
 
             _handler.Handle(command);
 
+            var viewing = viewings.Find(v => v.Id == 1);
             Assert.AreNotEqual(DateTime.MaxValue, viewing.UpdatedAt, "Updated date has not been set on Viewing");
         }
     }

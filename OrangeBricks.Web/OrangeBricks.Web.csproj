@@ -202,7 +202,8 @@
     <Compile Include="Controllers\Property\ViewModels\PropertiesViewModel.cs" />
     <Compile Include="Controllers\Property\ViewModels\PropertyViewModel.cs" />
     <Compile Include="Controllers\Property\ViewModels\RequestViewingViewModel.cs" />
-    <Compile Include="Controllers\Viewings\ViewModels\ViewinsOnPropertyViewModel.cs" />
+    <Compile Include="Controllers\Viewings\ViewingsController.cs" />
+    <Compile Include="Controllers\Viewings\ViewModels\ViewingsOnPropertyViewModel.cs" />
     <Compile Include="Controllers\Viewings\ViewModels\ViewingsOfBuyerViewModel.cs" />
     <Compile Include="Controllers\Viewings\Builders\ViewingsOfBuyerViewModelBuilder.cs" />
     <Compile Include="Controllers\Viewings\Builders\ViewingsOnPropertyViewModelBuilder.cs" />
@@ -330,6 +331,8 @@
     <None Include="Views\Account\UnAuthorized.cshtml" />
     <Content Include="Views\Offers\OfBuyer.cshtml" />
     <Content Include="Views\Property\RequestViewing.cshtml" />
+    <Content Include="Views\Viewings\OnProperty.cshtml" />
+    <Content Include="Views\Viewings\OfBuyer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
